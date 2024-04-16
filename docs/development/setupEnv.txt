@@ -11,6 +11,14 @@ Setup React Application
 Dockerize react application
 
 1. Install Docker - https://docs.docker.com/desktop/install/windows-install/
+2. Enable Virtualization Technology in BIOS
+3. Start Docker Desktop.
+4. In cmd terminal, run "docker run -d -p 80:80 docker/getting-started".
+5. Open browser to http://localhost
+6. Build react app docker image: docker build -t client .
+   Note: it takes a while to build as it runs "npm install". Eventually it will publish to Docker Desktop
+7. Start react app container: docker run -dp 3000:3000 client
+8. Open browser to http://localhost:3000/
 
 Setup WebApi application
 
