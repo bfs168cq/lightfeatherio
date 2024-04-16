@@ -19,7 +19,13 @@ Dockerize react application
    Note: it takes a while to build as it runs "npm install". Eventually it will publish to Docker Desktop
 7. Start react app container: docker run -dp 3000:3000 client
 8. Open browser to http://localhost:3000/
+9. Add docker-compose.yml file
+10. Run docker compose:
+    docker-compose build
+    docker-compose up
 
 Setup WebApi application
 
 1. Install Visual Studio 2022 Community Version
+2. Create Web Api project
+3. Run "dotnet new gitignore" to create .gitignore file for the project
