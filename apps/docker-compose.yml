@@ -1,0 +1,7 @@
+version: '3'
+name: lightfeatherio
+services:
+  frontend:
+    build: ./client-app
+    ports:
+      - "3000:3000"
