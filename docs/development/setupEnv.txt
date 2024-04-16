@@ -1,0 +1,17 @@
+Set up github
+
+Setup React Application
+
+1. Install node.js from https://nodejs.org/en/
+2. Install Visual Studio Code
+3. npm i -g npx
+4. npx create-react-app client-app
+5. npm start
+
+Dockerize react application
+
+1. Install Docker - https://docs.docker.com/desktop/install/windows-install/
+
+Setup WebApi application
+
+1. Install Visual Studio 2022 Community Version
