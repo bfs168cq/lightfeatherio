@@ -45,3 +45,7 @@ Integrate with docker-compose
 3. Test with broser
     http://localhost:3000/
     http://localhost:8080/swagger
+
+Test provide API
+
+1. Open browser to https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers
