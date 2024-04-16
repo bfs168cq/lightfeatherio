@@ -29,3 +29,9 @@ Setup WebApi application
 1. Install Visual Studio 2022 Community Version
 2. Create Web Api project
 3. Run "dotnet new gitignore" to create .gitignore file for the project
+
+Dockerize webapi application
+
+1. docker build -f WebServiceApp/Dockerfile -t web-service .
+2. docker run -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 web-service
+3. Test with browser: http://localhost:8080/swagger/
