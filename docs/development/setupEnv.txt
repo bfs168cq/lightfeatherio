@@ -35,3 +35,13 @@ Dockerize webapi application
 1. docker build -f WebServiceApp/Dockerfile -t web-service .
 2. docker run -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 web-service
 3. Test with browser: http://localhost:8080/swagger/
+
+Integrate with docker-compose
+
+1. Edit docket-compose.yml file
+2. Run docker compose:
+    docker-compose build
+    docker-compose up
+3. Test with broser
+    http://localhost:3000/
+    http://localhost:8080/swagger

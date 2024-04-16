@@ -5,3 +5,12 @@ services:
     build: ./client-app
     ports:
       - "3000:3000"
+
+  backend:
+    build:
+      context: ./web-api
+      dockerfile: WebServiceApp/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
