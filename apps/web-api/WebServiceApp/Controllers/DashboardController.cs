@@ -58,10 +58,13 @@ namespace WebServiceApp.Controllers
         [Route("api/submit")]
         public IActionResult Submit([FromBody] SupervisorNotification model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var firstName = model.FirstName;
+                return BadRequest("Invalid inputs");
             }
+
+            _logger.LogInformation("User Inputs: " + model);
+
             return Ok(new
             {
                 status = "200"

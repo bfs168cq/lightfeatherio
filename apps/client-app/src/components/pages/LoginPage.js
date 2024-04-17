@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +12,8 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const apiPort = process.env.REACT_APP_API_PORT;
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +24,7 @@ const LoginPage = () => {
         }
 
         axios.post(
-            "http://localhost:8080/api/login", {
+            'http://localhost:' + apiPort + '/api/login', {
             username: username,
             password: password
         }
@@ -39,52 +44,45 @@ const LoginPage = () => {
 
     return (
         <div>
-            <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Log In</button>
-            </form>
-            <p>
-                Hint: login with lightfeatherio / lightfeatherio
-            </p>
-        </div>
-        // <Form>
-        //     <Form.Group className="mb-3" controlId="formBasicEmail">
-        //         <Form.Label>Email address</Form.Label>
-        //         <Form.Control type="email" placeholder="Enter email" />
-        //         <Form.Text className="text-muted">
-        //             We'll never share your email with anyone else.
-        //         </Form.Text>
-        //     </Form.Group>
+            <Container className="col-md-3 border border-1">
+                <Form>
+                    <div className="text-center">
+                        <h1>Welcome to LightFeather</h1>
+                    </div>
+                    <Form.Group className="mb-3">
+                        <Form.Label>User Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder=""
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        >
+                        </Form.Control>
+                    </Form.Group>
 
-        //     <Form.Group className="mb-3" controlId="formBasicPassword">
-        //         <Form.Label>Password</Form.Label>
-        //         <Form.Control type="password" placeholder="Password" />
-        //     </Form.Group>
-        //     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        //         <Form.Check type="checkbox" label="Check me out" />
-        //     </Form.Group>
-        //     <Button variant="primary" type="submit">
-        //         Submit
-        //     </Button>
-        // </Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder=""
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group className="text-center">
+                        <Button variant="primary" type="submit" onClick={handleFormSubmit}>
+                            Log In
+                        </Button>
+                        <p>
+                            Hint: login with lightfeatherio / lightfeatherio
+                        </p>
+                    </Form.Group>
+                </Form>
+            </Container>
+        </div>
     );
 }
 

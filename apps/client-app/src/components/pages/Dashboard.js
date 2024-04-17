@@ -22,6 +22,9 @@ const Dashboard = () => {
     const [supervisors, setSupervisors] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [validated, setValidated] = useState(false);
+
+    const apiPort = process.env.REACT_APP_API_PORT;
 
     useEffect(() => {
         const authenticated = localStorage.getItem("authenticated");
@@ -31,7 +34,7 @@ const Dashboard = () => {
         }
 
         const fetchSupervisors = async () => {
-            await api.get('http://localhost:8080/api/supervisors').then((response) => {
+            await api.get('http://localhost:' + apiPort + '/api/supervisors').then((response) => {
                 console.log(response);
                 setSupervisors(response.data);
                 setLoaded(true);
@@ -42,19 +45,23 @@ const Dashboard = () => {
         };
 
         if (!loaded) fetchSupervisors();
-    }, [firstName, lastName, email, byEmail, phoneNumber, byPhone, selectedSupervisorId]);
+    }, [firstName, lastName, email, byEmail, phoneNumber, byPhone, selectedSupervisorId, validated]);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        if (!firstName || !lastName) {
-            alert('Please fill in both fields.');
+        // client side validation
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            setValidated(true);
             return;
         }
 
+        setValidated(true);
+
         const submitRequest = async () => {
-            console.log('byEmail=', byEmail)
-            await api.post('http://localhost:8080/api/submit', {
+            await api.post('http://localhost:' + apiPort + '/api/submit', {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -64,6 +71,13 @@ const Dashboard = () => {
             }).then((response) => {
                 console.log(response);
                 setSuccessMessage('The supervisor is notified');
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setPhoneNumber('');
+                setByEmail(false);
+                setByPhone(false);
+                setSelectedSupervisorId('');
             }, (error) => {
                 console.log(error);
             })
@@ -73,128 +87,143 @@ const Dashboard = () => {
     };
 
     //const supervisorList = supervisors.map(supervisor => <Supervisor key={supervisor.id} supervisor={supervisor} />)
-    console.log('rending ', supervisors.length);
+    //console.log('rending ', supervisors.length);
     return (
-        <Container className="col-md-6">
-            <Row>
-                <Col>
-                    Notification Form
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder=""
-                            id="firstName"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        >
-                        </Form.Control>
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder=""
-                            id="lastName"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Text className="text-muted">
-                            How would you prefer to be notified?
+        <Container className="col-md-6 border border-1">
+            <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+                <Row>
+                    <Col className="text-center bg-secondary">
+                        <h1>Notification Form</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder=""
+                                id="firstName"
+                                value={firstName}
+                                isInvalid={ /\d/.test(firstName) }
+                                onChange={(e) => setFirstName(e.target.value)}
+                            >
+                            </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a valid first name.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder=""
+                                id="lastName"
+                                value={lastName}
+                                isInvalid={ /\d/.test(lastName) }
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter a valid last name.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Text className="text-muted">
+                                How would you prefer to be notified?
+                            </Form.Text>
+                        </Form.Group>
+                    </Col>
+                    <Col></Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Check type="checkbox" label="Email"
+                                id="byEmail"
+                                checked={byEmail}
+                                onChange={(e) => {
+                                    //console.log('e.target.value', e.target.checked);
+                                    setByEmail(e.target.checked);
+                                }}
+                            />
+                            <Form.Control
+                                type="text"
+                                placeholder=""
+                                id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Check type="checkbox" label="Phone Number"
+                                id="byPhone"
+                                checked={byPhone}
+                                onChange={(e) => {
+                                    setByPhone(e.target.checked);
+                                }}
+                            />
+                            <Form.Control
+                                type="text"
+                                placeholder=""
+                                id="phoneNumber"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3">
+                            <Form.Label>SuperVisor</Form.Label>
+                            <Form.Select
+                                id="supervisor"
+                                value={selectedSupervisorId}
+                                onChange={(e) => {
+                                    setSelectedSupervisorId(e.target.value);
+                                }}
+                            >
+                                {
+                                    supervisors.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item.id}>
+                                                {item.jurisdiction} - {item.lastName}, {item.firstName}
+                                            </option>
+                                        );
+                                    })
+                                }
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                Please select a supervisor.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="text-center">
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Text muted>
+                            {successMessage}
                         </Form.Text>
-                    </Form.Group>
-                </Col>
-                <Col></Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Check type="checkbox" label="Email"
-                            id="byEmail"
-                            checked={byEmail}
-                            onChange={(e) => {
-                                //console.log('e.target.value', e.target.checked);
-                                setByEmail(e.target.checked);
-                            }}
-                        />
-                        <Form.Control
-                            type="text"
-                            placeholder=""
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Check type="checkbox" label="Phone Number"
-                            id="byPhone"
-                            checked={byPhone}
-                            onChange={(e) => {
-                                setByPhone(e.target.checked);
-                            }}
-                        />
-                        <Form.Control
-                            type="text"
-                            placeholder=""
-                            id="phoneNumber"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Group className="mb-3">
-                        <Form.Label>SuperVisor</Form.Label>
-                        <Form.Select
-                            id="supervisor"
-                            value={selectedSupervisorId}
-                            onChange={(e) => {
-                                setSelectedSupervisorId(e.target.value);
-                            }}
-                        >
-                            {
-                                supervisors.map((item, index) => {
-                                    return (
-                                        <option key={index} value={item.id}>
-                                            {item.jurisdiction} - {item.lastName}, {item.firstName}
-                                        </option>
-                                    );
-                                })
-                            }
-                        </Form.Select>
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-                        Submit
-                    </Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Form.Text muted>
-                        {successMessage}
-                    </Form.Text>
-                </Col>
-            </Row>
+                    </Col>
+                </Row>
+            </Form>
         </Container >
     );
 }
