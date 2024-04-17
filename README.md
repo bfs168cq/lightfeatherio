@@ -1,5 +1,23 @@
 # ReadMe for lightfeatherio
 
+Introduction
+
+The project is created for code challenge within 48 hours. Folllowing technologies are used.
+
+1. Asp.net Core 8.0 Web API
+2. JWT token authentication
+3. React 18.2 for front-end
+4. React Bootstrap 5.x for form rendering
+5. React axios for http request
+
+Following Tools are used
+
+1. Visual Studio 2022 Community version
+2. VSCode
+3. Docker Desktop
+4. Newly created github account
+5. Git bash
+
 Instruction to run the project
 
 1. Install docker desktop - https://docs.docker.com/desktop/install/windows-install/
