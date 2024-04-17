@@ -49,3 +49,8 @@ Integrate with docker-compose
 Test provide API
 
 1. Open browser to https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers
+
+Prepare to code react frontend app
+
+1. Install VSCode
+2.
