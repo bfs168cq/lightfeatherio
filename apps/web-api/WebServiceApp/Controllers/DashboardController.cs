@@ -53,5 +53,19 @@ namespace WebServiceApp.Controllers
 
             return result.ToArray();
         }
+
+        [HttpPost]
+        [Route("api/submit")]
+        public IActionResult Submit([FromBody] SupervisorNotification model)
+        {
+            if (ModelState.IsValid)
+            {
+                var firstName = model.FirstName;
+            }
+            return Ok(new
+            {
+                status = "200"
+            });
+        }
     }
 }
