@@ -29,3 +29,11 @@ Instruction to run the project
 7. Open browser to http://localhost:3000
 8. Enjoy the demo. The default login is display on the login page.
 
+Challenges
+
+A personal computer have to be used to develop this project within 48 hours. I do not have powerful computer, and no previous development environment. It took a lot time to set up the dev env including installation following tools.
+
+1. Docker Desktop - in order to test docker image locally, I have to set up docker desktop. Unfortunately, my personal computer is old and not powerful, it takes workaround to limit memory usage.
+2. Dev Tools - Visual Studio, VSCode etc
+3. Create new github account
+
