@@ -20,6 +20,7 @@ Following Tools are used
 
 Instruction to run the project
 
+Note: make sure your localhost does not have port 3000 and 8080 in used.
 1. Install docker desktop - https://docs.docker.com/desktop/install/windows-install/
 2. Start docker desktop.
 3. Download the project code through git clone or zip download
