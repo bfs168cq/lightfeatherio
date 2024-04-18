@@ -24,7 +24,8 @@ const Dashboard = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [validated, setValidated] = useState(false);
 
-    const apiPort = process.env.REACT_APP_API_PORT;
+    //const apiPort = process.env.REACT_APP_API_PORT;
+    const apiPort = 8080;
 
     useEffect(() => {
         const authenticated = localStorage.getItem("authenticated");

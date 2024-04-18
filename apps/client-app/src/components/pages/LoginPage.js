@@ -13,7 +13,8 @@ const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const apiPort = process.env.REACT_APP_API_PORT;
+    //const apiPort = process.env.REACT_APP_API_PORT;
+    const apiPort = 8080;
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
